@@ -1210,6 +1210,10 @@ func (ld *loader) loadFromExportData(lpkg *loaderPackage) (*types.Package, error
 	if err != nil {
 		return nil, fmt.Errorf("reading %s: %v", lpkg.ExportFile, err)
 	}
+	if _, ok := view["go.shape"]; ok {
+		viewLen++ // account for the pseudopackage "go.shape" that gets created by generic code
+	}
+
 	if viewLen != len(view) {
 		log.Fatalf("Unexpected package creation during export data loading")
 	}
